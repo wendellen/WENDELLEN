@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WENDELLEN BODY OF WORK</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  header {
+    text-align: center;
+    padding: 20px;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-gap: 0;
+    position: relative;
+    top: 50vh;
+    transform: translateY(-50%);
+  }
+  .grid-item {
+    width: 100%;
+    background: lightgray;
+    padding-bottom: 100%; /* Keeps aspect ratio */
+  }
+  @media (min-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>WENDELLEN</h1>
+  <h2>BODY OF WORK</h2>
+  <p>WE'RE A HIGH-QUALITY BAD ART FUND DEDICATED TO COLLABORATIONS ON EROTIC ART AND FICTION AT THE INTERSECTION OF SEXUAL ENERGY AND PROFESSIONAL RELATIONSHIPS</p>
+</header>
+
+<div class="grid-container">
+  <!-- Infinite Grid of Images -->
+  <div class="grid-item"></div>
+  <!-- More grid items... -->
+</div>
+
+<script>
+  // JavaScript to handle infinite scroll
+  let container = document.querySelector('.grid-container');
+
+  window.onscroll = function() {
+    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
+      for (let i = 0; i < 3; i++) { // Add 3 more items for mobile or 4 for desktop
+        let newItem = document.createElement('div');
+        newItem.className = 'grid-item';
+        newItem.style.background = getRandomColor();
+        container.appendChild(newItem);
+      }
+    }
+  };
+
+  function getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+</script>
+
+</body>
+</html>
