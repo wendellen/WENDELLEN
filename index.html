@@ -10,37 +10,24 @@
     padding: 0;
     overflow-x: hidden;
   }
-  header {
-    text-align: center;
-    padding: 20px;
-  }
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Default to 3 columns for mobile */
     grid-gap: 0;
-    position: relative;
-    top: 50vh;
-    transform: translateY(-50%);
   }
   .grid-item {
-    width: 100%;
-    background: lightgray;
-    padding-bottom: 100%; /* Keeps aspect ratio */
+    border: 1px solid gray; /* Change border color to gray */
+    background: lightgray; /* Background color */
+    padding-bottom: calc(100% - 2px); /* Adjust for border, maintaining aspect ratio */
   }
   @media (min-width: 768px) {
     .grid-container {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, 1fr); /* 4 columns for desktop */
     }
   }
 </style>
 </head>
 <body>
-
-<header>
-  <h1>WENDELLEN</h1>
-  <h2>BODY OF WORK</h2>
-  <p>WE'RE A HIGH-QUALITY BAD ART FUND DEDICATED TO COLLABORATIONS ON EROTIC ART AND FICTION AT THE INTERSECTION OF SEXUAL ENERGY AND PROFESSIONAL RELATIONSHIPS</p>
-</header>
 
 <div class="grid-container">
   <!-- Infinite Grid of Images -->
@@ -49,29 +36,41 @@
 </div>
 
 <script>
-  // JavaScript to handle infinite scroll
-  let container = document.querySelector('.grid-container');
-
-  window.onscroll = function() {
-    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
-      for (let i = 0; i < 3; i++) { // Add 3 more items for mobile or 4 for desktop
-        let newItem = document.createElement('div');
-        newItem.className = 'grid-item';
-        newItem.style.background = getRandomColor();
-        container.appendChild(newItem);
+    // JavaScript to handle infinite scroll and color generation
+    let container = document.querySelector('.grid-container');
+  
+    // Define arrays of neon and pastel colors
+    const neonColors = ['#39FF14', '#FF073A', '#FE59C2', '#08F7FE', '#FAB1FF'];
+    const pastelColors = ['#FFD1DC', '#FFAAD4', '#BDE0FE', '#A2D2FF', '#FFC8DD'];
+  
+    // Function to create a new grid item
+    function createGridItem() {
+      let newItem = document.createElement('div');
+      newItem.className = 'grid-item';
+      newItem.style.background = getRandomColor();
+      container.appendChild(newItem);
+    }
+  
+    // Load initial grid items
+    for (let i = 0; i < 12; i++) {
+      createGridItem();
+    }
+  
+    window.onscroll = function() {
+      if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 100) {
+        for (let i = 0; i < 3; i++) {
+          createGridItem();
+        }
       }
+    };
+  
+    // Function to get a random neon or pastel color
+    function getRandomColor() {
+      const allColors = [...neonColors, ...pastelColors]; // Combine both arrays
+      return allColors[Math.floor(Math.random() * allColors.length)];
     }
-  };
-
-  function getRandomColor() {
-    let letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-</script>
+  </script>
+  
 
 </body>
 </html>
