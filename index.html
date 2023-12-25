@@ -12,17 +12,17 @@
   }
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Default to 3 columns for mobile */
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     grid-gap: 0;
   }
   .grid-item {
-    border: 1px solid gray; /* Change border color to gray */
-    background: lightgray; /* Background color */
-    padding-bottom: calc(100% - 2px); /* Adjust for border, maintaining aspect ratio */
+    border: none;
+    background: lightgray;
+    padding-bottom: 100%;
   }
   @media (min-width: 768px) {
     .grid-container {
-      grid-template-columns: repeat(4, 1fr); /* 4 columns for desktop */
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 </style>
@@ -30,47 +30,44 @@
 <body>
 
 <div class="grid-container">
-  <!-- Infinite Grid of Images -->
-  <div class="grid-item"></div>
-  <!-- More grid items... -->
+  <!-- Infinite Grid of Images will be added by JavaScript -->
 </div>
 
 <script>
-    // JavaScript to handle infinite scroll and color generation
-    let container = document.querySelector('.grid-container');
-  
-    // Define arrays of neon and pastel colors
-    const neonColors = ['#39FF14', '#FF073A', '#FE59C2', '#08F7FE', '#FAB1FF'];
-    const pastelColors = ['#FFD1DC', '#FFAAD4', '#BDE0FE', '#A2D2FF', '#FFC8DD'];
-  
-    // Function to create a new grid item
-    function createGridItem() {
-      let newItem = document.createElement('div');
-      newItem.className = 'grid-item';
-      newItem.style.background = getRandomColor();
-      container.appendChild(newItem);
+  let container = document.querySelector('.grid-container');
+  let lastHue = 0; // Variable to track the last used hue
+
+  function createGridItem() {
+    let newItem = document.createElement('div');
+    newItem.className = 'grid-item';
+    let newHue = getRandomHue();
+
+    // Ensure new hue is different from the last hue
+    while (Math.abs(newHue - lastHue) < 30) { // 30 degrees difference to ensure noticeable color change
+      newHue = getRandomHue();
     }
+
+    newItem.style.background = `hsl(${newHue}, 100%, 75%)`; // High saturation and lightness for neon/pastel effect
+    lastHue = newHue;
+    container.appendChild(newItem);
+  }
   
-    // Load initial grid items
-    for (let i = 0; i < 12; i++) {
-      createGridItem();
-    }
-  
-    window.onscroll = function() {
-      if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 100) {
-        for (let i = 0; i < 3; i++) {
-          createGridItem();
-        }
+  for (let i = 0; i < 12; i++) {
+    createGridItem();
+  }
+
+  window.onscroll = function() {
+    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 100) {
+      for (let i = 0; i < 3; i++) {
+        createGridItem();
       }
-    };
-  
-    // Function to get a random neon or pastel color
-    function getRandomColor() {
-      const allColors = [...neonColors, ...pastelColors]; // Combine both arrays
-      return allColors[Math.floor(Math.random() * allColors.length)];
     }
-  </script>
-  
+  };
+
+  function getRandomHue() {
+    return Math.floor(Math.random() * 360); // Hue value between 0 and 360
+  }
+</script>
 
 </body>
 </html>
