@@ -12,17 +12,21 @@
   }
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Default to 3 columns for mobile */
     grid-gap: 0;
   }
   .grid-item {
     border: none;
-    background: lightgray;
-    padding-bottom: 100%;
+    padding-bottom: 100%; /* Keeps aspect ratio */
+    position: relative; /* Needed for absolute positioning of the content */
+    background-size: cover; /* Ensures the image covers the entire item */
+    background-position: 50% 50%; /* Center the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    overflow: hidden; /* Ensures the image does not spill outside the box */
   }
   @media (min-width: 768px) {
     .grid-container {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, 1fr); /* 4 columns for desktop */
     }
   }
 </style>
@@ -30,42 +34,51 @@
 <body>
 
 <div class="grid-container">
-  <!-- Infinite Grid of Images will be added by JavaScript -->
+  <!-- Grid items will be added by JavaScript -->
 </div>
 
 <script>
   let container = document.querySelector('.grid-container');
-  let lastHue = 0; // Variable to track the last used hue
+  
+  // Array of image paths (replace with your actual image paths)
+  const imagePaths = ['assets/Cheri.jpg', 'assets/DX0001IO.jpeg', 'assets/DX0001XX.jpeg','assets/Seraphim_Wendellen.png', 'assets/MOTHERMARYANGRY.PNG', 'assets/DOUBLERAINBOW.JPEG', 'assets/WHITE.JPEG', 'assets/ILLIQUID.PNG', 'assets/GLITCHPORTRAIT.JPG', 'assets/ELSEWHERELENTICULAR.JPG'];
 
-  function createGridItem() {
+  function createGridItem(addImage = false) {
     let newItem = document.createElement('div');
     newItem.className = 'grid-item';
-    let newHue = getRandomHue();
 
-    // Ensure new hue is different from the last hue
-    while (Math.abs(newHue - lastHue) < 30) { // 30 degrees difference to ensure noticeable color change
-      newHue = getRandomHue();
+    if (addImage) {
+      let imagePath = imagePaths[Math.floor(Math.random() * imagePaths.length)];
+      newItem.style.backgroundImage = `url('${imagePath}')`;
+      newItem.style.backgroundSize = 'cover';
+      // Randomize background position
+      newItem.style.backgroundPosition = `${getRandomPosition()}% ${getRandomPosition()}%`;
+    } else {
+      newItem.style.background = getRandomColor();
     }
 
-    newItem.style.background = `hsl(${newHue}, 100%, 75%)`; // High saturation and lightness for neon/pastel effect
-    lastHue = newHue;
     container.appendChild(newItem);
   }
   
+  // Load initial grid items
   for (let i = 0; i < 12; i++) {
-    createGridItem();
+    createGridItem(Math.random() < 0.1); // 10% chance to add an image
   }
 
   window.onscroll = function() {
     if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 100) {
       for (let i = 0; i < 3; i++) {
-        createGridItem();
+        createGridItem(Math.random() < 0.3); // 30% chance to add an image
       }
     }
   };
 
-  function getRandomHue() {
-    return Math.floor(Math.random() * 360); // Hue value between 0 and 360
+  function getRandomPosition() {
+    return Math.random() * 100; // Position between 0% and 100%
+  }
+
+  function getRandomColor() {
+    return `hsl(${Math.random() * 360}, 100%, 75%)`; // Random bright color
   }
 </script>
 
