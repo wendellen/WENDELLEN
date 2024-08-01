@@ -41,7 +41,7 @@
   let container = document.querySelector('.grid-container');
   
   // Array of image paths (replace with your actual image paths)
-  const imagePaths = ['assets/Cheri.jpg', 'assets/DX0001IO.jpeg', 'assets/DX0001XX.jpeg','assets/Seraphim_Wendellen.png', 'assets/MOTHERMARYANGRY.PNG', 'assets/DOUBLERAINBOW.JPEG', 'assets/WHITE.JPEG', 'assets/ILLIQUID.PNG', 'assets/GLITCHPORTRAIT.JPG', 'assets/ELSEWHERELENTICULAR.JPG'];
+  const imagePaths = ['assets/DONOTBUY1.png','assets/CHERISH4.png','assets/CHERISH5.png','assets/STALK3.png','assets/HOE1.png','assets/MJART1.jpg','assets/RANDOM1.png'];
 
   function createGridItem(addImage = false) {
     let newItem = document.createElement('div');
@@ -62,13 +62,13 @@
   
   // Load initial grid items
   for (let i = 0; i < 12; i++) {
-    createGridItem(Math.random() < 0.1); // 10% chance to add an image
+    createGridItem(Math.random() < 1 ); // 10% chance to add an image
   }
 
   window.onscroll = function() {
     if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 100) {
       for (let i = 0; i < 3; i++) {
-        createGridItem(Math.random() < 0.3); // 30% chance to add an image
+        createGridItem(Math.random() < 1); // 30% chance to add an image
       }
     }
   };
